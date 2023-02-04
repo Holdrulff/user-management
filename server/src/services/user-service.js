@@ -14,10 +14,21 @@ async function createUser(name, email) {
     name: name,
     email: email,
   };
-
   users.push(newUser);
-
   return newUser;
 }
 
-module.exports = { getUsers, getUserById, createUser };
+async function updateUser(id, name, email) {
+  const user = users.find((user) => user.id === Number(id));
+
+  user.name = name;
+  user.email = email;
+  return user;
+}
+
+async function deleteUser(id) {
+  const userIndex = users.findIndex((user) => user.id === Number(id));
+  users.splice(userIndex, 1);
+}
+
+module.exports = { getUsers, getUserById, createUser, updateUser, deleteUser };

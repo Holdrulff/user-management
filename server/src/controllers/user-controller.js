@@ -1,4 +1,3 @@
-const { users } = require("../../db");
 const userService = require("../services/user-service");
 
 async function getUsers(request, response) {
@@ -33,10 +32,10 @@ async function createUser(request, response) {
 
 async function updateUser(request, response) {
   const id = request.params.id;
-  const user = users.find((user) => user.id === Number(id));
+  const name = request.body.name;
+  const email = request.body.email;
 
-  user.name = request.body.name;
-  user.email = request.body.email;
+  await userService.updateUser(id, name, email);
 
   return response.send({
     message: "User updated successfully",
@@ -45,10 +44,8 @@ async function updateUser(request, response) {
 
 async function deleteUser(request, response) {
   const id = request.params.id;
-  const userIndex = users.findIndex((user) => user.id === Number(id));
 
-  users.splice(userIndex, 1);
-
+  await userService.deleteUser(id);
   return response.send({
     message: `User deleted successfully`,
   });
